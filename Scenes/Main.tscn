@@ -1,9 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://cx5go6wd001bu"]
 
-[ext_resource type="Texture2D" uid="uid://d3m2k7njkfpmi" path="res://Assets/Kings and Pigs/Sprites/01-King Human/Idle (78x58)2.png" id="1_qq6ci"]
+[ext_resource type="PackedScene" uid="uid://lq1abuiu1c2" path="res://Scenes/player.tscn" id="1_mt5ti"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(148, 259)
-texture = ExtResource("1_qq6ci")
+[node name="Player" parent="." instance=ExtResource("1_mt5ti")]
