@@ -15,7 +15,7 @@ func _physics_process(delta):
 		# horizontal movement processing (left, right)
 		horizontal_movement()
 		#applies movement
-		#move_and_slide() 
+		move_and_slide() 
 		#applies animations
 		player_animations()
 		#applies animations
@@ -61,11 +61,13 @@ func player_animations():
 	if Input.is_action_pressed("ui_left") || Input.is_action_just_released("ui_jump"):
 		$AnimatedSprite2D.flip_h = true
 		$AnimatedSprite2D.play("run")
-
+		$CollisionShape2D.position.x = 7
 		#on right (add is_action_just_released so you continue running after jumping)
 	if Input.is_action_pressed("ui_right") || Input.is_action_just_released("ui_jump"):
 		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.play("run")
+		$CollisionShape2D.position.x = -7
+
 	#on idle if nothing is being pressed
 	if !Input.is_anything_pressed():
 		$AnimatedSprite2D.play("idle")
