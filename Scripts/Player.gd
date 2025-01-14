@@ -5,8 +5,7 @@ extends CharacterBody2D
 @export var speed = 100
 @export var gravity = 200
 @export var jump_height = -100
-var is_attacking = false
-var is_climbing = false
+
 
 #movement and physics
 func _physics_process(delta):
@@ -14,12 +13,12 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		# horizontal movement processing (left, right)
 		horizontal_movement()
+		
 		#applies movement
 		move_and_slide() 
+
 		#applies animations
-		player_animations()
-		#applies animations
-		if !is_attacking:
+		if !Global.is_attacking || !Global.is_climbing:
 			player_animations()
 #older code 
 
@@ -27,23 +26,26 @@ func _physics_process(delta):
 func _input(event):
 		#on attack
 		if event.is_action_pressed("ui_attack"):
-			is_attacking = true
+			Global.is_attacking = true
 			$AnimatedSprite2D.play("attack")
 		#on jump
 		if event.is_action_pressed("ui_jump") and is_on_floor():
 			velocity.y = jump_height
 			$AnimatedSprite2D.play("jump")
 		  #on climbing ladders
-		if is_climbing == true:
-			if Input.is_action_pressed("ui_up"):
-				$AnimatedSprite2D.play("climb") 
-				gravity = 100
-				velocity.y = -200
+		if Global.is_climbing == true:
+			if !Input.is_anything_pressed():
+				$AnimatedSprite2D.play("idle")
+
+		if Input.is_action_pressed("ui_up"):
+			$AnimatedSprite2D.play("climb") 
+			gravity = 100
+			velocity.y = -160
 
 		#reset gravity
 		else:
 			gravity = 200
-			is_climbing = false
+			Global.is_climbing = false
 
 
 func horizontal_movement():
@@ -74,4 +76,5 @@ func player_animations():
 
 #reset our animation variables
 func _on_animated_sprite_2d_animation_finished():
-	is_attacking = false
+	Global.is_attacking = false
+	Global.is_climbing = false
